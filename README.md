@@ -1,7 +1,13 @@
 NotNoSQL
 ========
 
-Simplicity is king. NotNoSQL is not intended for large deployments, nor is it intended to be a replacement for dedicated NoSQL-based key/value stores. Rather, it is intended as a quick way to gain data persistency in smaller applications with some concurrency (which would render a .json file dangerous to rely on). 
+What it is:
+-----------------
+NotNoSQL is an SQL-based NoSQL key/value store. What that means is that like bigger projects like Couch or Mongo, it stores data using key/value pairs rather than following a table/row/column scheme of traditional SQL-based RDBMS's. It also means that it uses such an SQL-based RDBMS to achieve such functionality. 
+
+What it isn't:
+-----------------
+NotNoSQL is not intended for large deployments, nor is it intended to be a replacement for dedicated NoSQL-based key/value stores. Rather, it is intended as a quick way to gain data persistency in smaller applications with some concurrency (which would render a .json file dangerous to rely on). Think of it less as a database alternative and more as a flat-file-storage alternative.
 
 How it works:
 -----------------
