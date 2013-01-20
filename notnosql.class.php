@@ -168,9 +168,8 @@ class NotNoSQL {
 	 * @return	mixed	Decoded json value
 	 */
 	private function selectStatement($table, $key) {
-		$query = 'SELECT `value` FROM `' . $table . '` WHERE `key` = "' . $this->escape($key) . '"';
 		$result = $this->db->query(
-			$query
+			'SELECT `value` FROM `' . $table . '` WHERE `key` = "' . $this->escape($key) . '"'
 		)->fetchColumn();
 
 		if ($result === false) {
@@ -195,9 +194,8 @@ class NotNoSQL {
 	 * @return	void
 	 */
 	private function insertStatement($table, $key, $value) {
-		$query = 'INSERT INTO `' . $table . '` (`key`, `value`) VALUES("' . $this->escape($key) . '", "' . $this->escape(json_encode($value)) . '")';
 		$this->db->query(	
-			$query
+			'INSERT INTO `' . $table . '` (`key`, `value`) VALUES("' . $this->escape($key) . '", "' . $this->escape(json_encode($value)) . '")'
 		);
 	}
 	
@@ -210,9 +208,8 @@ class NotNoSQL {
 	 * @return	void
 	 */
 	private function updateStatement($table, $key, $value) {
-		$query = 'UPDATE `' . $table . '` SET `value` = "' . $this->escape(json_encode($value)) . '" WHERE `key` = "' . $this->escape($key) . '"';
 		$this->db->query(
-			$query
+			'UPDATE `' . $table . '` SET `value` = "' . $this->escape(json_encode($value)) . '" WHERE `key` = "' . $this->escape($key) . '"'
 		);
 	}
 
