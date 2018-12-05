@@ -140,8 +140,8 @@ class NotNoSQL
     {
         $segments = explode('.', $key);
         $toplevel = $segments[0];
-        $data = $this->prepareData($key, $value);
-        if ($data instanceof Data) {
+        $data = $this->getData($key);
+        if (count($segments) > 1 && $data instanceof Data) {
             $data->remove($key);
             $data = $data->export();
         } else {
