@@ -9,43 +9,60 @@ What it isn't:
 -----------------
 NotNoSQL is not intended for large deployments, nor is it intended to be a replacement for dedicated NoSQL-based key/value stores. Rather, it is intended as a quick way to gain data persistency in smaller applications with some concurrency (which would render a .json file dangerous to rely on). Think of it less as a database alternative and more as a flat-file-storage alternative.
 
+Example of usage:
+-----------------
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+$notnosql = new Sikker\NotNoSQL\NotNoSQL( new PDO('sqlite:database.sqlite3') );
+$notnosql->put('foo', 'bar');
+echo $notnosql->get('foo') . PHP_EOL;
+```
+
 How it works:
 -----------------
 NotNoSQL works by feeding it a PDO object connected to whatever datasource you want to use, be it an sqlite database or an Oracle cluster. It has been tested to work with SQLite3 and MySQL. After that, you just treat it like a json-based key/value store like so:
 
-	$notnosql->put('beef.stroganoff.attr.country', array('unknown', 'unknown', 'THE EMPIRE!'));
-	var_dump($notnosql->get('beef.stroganoff.attr.country'));
-
-A thing to keep in mind is that by default, the JSON objects are returned as associative arrays. This is in part because that is the most likely scenario for you to try and store data in, and secondly because associative arrays resolve a teeeeensy bit faster than stdClass objects do. But if you need this behaviour to be different, just call this method after construct:
-
-	$notnosql->setJsonDecodePolicy(NotNoSQL::JSON_DECODE_POLICY_OBJECT);
-
-It can be reversed with, you guessed it:
-
-	$notnosql->setJsonDecodePolicy(NotNoSQL::JSON_DECODE_POLICY_ARRAY);
+```php
+$notnosql->put('beef.stroganoff.attr.country', ['unknown', 'unknown', 'THE EMPIRE!']);
+var_dump($notnosql->get('beef.stroganoff.attr.country'));
+```
 
 Simple, eh?
 
-Keep in mind that this key/value store isn't particularly smart. It doesn't keep an index of your data or anything similar, so entering:
+A thing to keep in mind is that the data is converted to arrays internally, even if it's entered as objects. You will thus always get arrays back out. Feel free to cast/convert them to stdClass objects as you need to after that though!
 
-	$notnosql->put('beef.stroganoff.chef', 'Bender');
-	$notnosql->put('beef.stroganoff.customer', 'Fry');
+Contents put into multidimensional arrays like so:
 
-*Will not* allow you to get both out in an array with:
+```php
+$notnosql->put('beef.stroganoff.chef', 'Bender');
+$notnosql->put('beef.stroganoff.customer', 'Fry');
+```
 
-	$notnosql->get('beef.stroganoff');
+Can be fetched starting from any parent you wish, like so:
 
-If you need this behaviour, save them as an array instead:
+```php
+$notnosql->get('beef.stroganoff'); // returns ['chef' => 'Bender', 'customer' => 'Fry']
+```
 
-	$notnosql->put('beef.stroganoff', array('chef' => 'Bender', 'customer' => 'Fry'));
+If you want to add items to an existing array, you can use the add method:
 
+```php
+$notnosql->put('deliveries', []);
+$notnosql->add('deliveries', ['from' => 'Nixon', 'to' => 'Lrrr, Ruler of Omicron Persei 8']);
+$notnosql->add('deliveries', ['from' => 'Russia', 'with' => 'love']);
+```
 
-Example of usage:
------------------
+You can delete a key and everything below it with the delete method:
 
-	<?php
+```php
+$notnosql->delete('beef.stroganoff');
+```
 
-	include 'notnosql/notnosql.class.php';
-	$notnosql = new NotNoSQL( new PDO('sqlite:database.sq3') );
-	$notnosql->put('foo', 'bar');
-	echo $notnosql->get('foo') . PHP_EOL;
+Although if you just want to delete the contents, you should simply use put to give it an empty value again:
+
+```php
+$notnosql->put('deliveries', []);
+```

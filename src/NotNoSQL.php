@@ -24,20 +24,15 @@ class NotNoSQL {
 	
 	private $db;
 	private $data = [];
-	private $jsonDecodePolicy;
-
-	const JSON_DECODE_POLICY_ARRAY = 1;
-	const JSON_DECODE_POLICY_OBJECT = 2;
 	
 	/**
 	 * Create the store
 	 *
-	 * @param	NotNoDb	the database wrapper object the class will write to.
-	 * @param	int OPTIONAL. NotNoSQL::JSON_DECODE_POLICY_ARRAY(default) or NotNoSQL::JSON_DECODE_POLICY_OBJECT
+	 * @param	\PDO the database object the class will write to
+	 * @param	string OPTIONAL. Name of the table that will be created to store the data. Defaults to "notnosql_data" 
 	 */
-	public function __construct(NotNoDb $db, int $jsonDecodePolicy = self::JSON_DECODE_POLICY_ARRAY) {
-		$this->db = $db;
-		$this->setJsonDecodePolicy($jsonDecodePolicy);
+	public function __construct(\PDO $pdo, string $collectionTable = 'notnosql_data') {
+		$this->db = new NotNoDb($pdo, $collectionTable);
 	}	
 	
 	/**
@@ -144,31 +139,6 @@ class NotNoSQL {
 			$data = null;
 		}
 		$this->db->statement('put', $toplevel, $data);
-	}
-
-	/**
-	 * Change the policy for decoding JSON objects. 
-	 *
-	 * By default get() calls will return JSON objects as associative arrays, but your code may require PHP object returns, 
-	 * in which case this method is offered.
-	 *
-	 * @param	int	NotNoSQL::JSON_DECODE_POLICY_ARRAY or NotNoSQL::JSON_DECODE_POLICY_OBJECT
-	 * @return	void
-	 */
-	public function setJsonDecodePolicy($jsonDecodePolicy) {
-		if ($jsonDecodePolicy !== self::JSON_DECODE_POLICY_ARRAY && $jsonDecodePolicy !== self::JSON_DECODE_POLICY_OBJECT) {
-			throw new NoSuchJsonDecodePolicyException('No such JSON decode policy ' . $jsonDecodePolicy);
-		}
-		$this->jsonDecodePolicy = $jsonDecodePolicy;
-	}
-
-	/**
-	 * Check what policy is currently used for converting JSON objects.
-	 *
-	 * @return	int	NotNoSQL::JSON_DECODE_POLICY_ARRAY or NotNoSQL::JSON_DECODE_POLICY_OBJECT
-	 */
-	public function getJsonDecodePolicy() {
-		return $this->jsonDecodePolicy;
 	}
 
 	/**

@@ -23,8 +23,8 @@ class NotNoDb {
 	/**
 	 * Create the database layer for injection into the NotNoSQL store
 	 * 
-	 * @param	PDO	The database connection to use.
-	 * @param	string	OPTIONAL. Name of the table that will be created to store the data. Defaults to "notnosql_data".
+	 * @param	\PDO	The database connection to use.
+	 * @param	string	OPTIONAL. Name of the table that will be created to store the data. Defaults to "notnosql_data"
 	 */
     public function __construct(\PDO $pdo, string $collectionTable = 'notnosql_data') {
         $this->collectionTable = $collectionTable;
