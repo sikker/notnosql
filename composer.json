@@ -1,0 +1,24 @@
+{
+    "name": "sikker/notnosql",
+    "type": "library",
+    "description": "The SQL-based NoSQL library for PHP -- it's NoSQL, even though it's not!",
+    "homepage": "https://github.com/sikker/notnosql",
+    "keywords": ["nosql", "pdo", "key-value", "storage", "simple"],
+    "license": "CC-BY-4.0",
+    "authors": [
+        {
+            "name": "Per Sikker Hansen",
+            "email": "persikkerhansen@gmail.com",
+            "homepage": "https://github.com/sikker"
+        }
+    ],
+    "require": {
+        "php": "^7.0",
+        "dflydev/dot-access-data": "^2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Sikker\\NotNoSQL\\": "src/"
+        }
+    }
+}
