@@ -16,6 +16,9 @@
         "php": "^7.0",
         "dflydev/dot-access-data": "^2.0"
     },
+    "require-dev": {
+        "phpunit/phpunit": "*"
+    },
     "autoload": {
         "psr-4": {
             "Sikker\\NotNoSQL\\": "src/"
