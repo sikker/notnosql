@@ -2,4 +2,7 @@
 
 namespace Sikker\NotNoSQL;
 
-class NoSuchJsonDecodePolicyException extends Exception {}
+class NoSuchJsonDecodePolicyException extends Exception
+{
+
+}

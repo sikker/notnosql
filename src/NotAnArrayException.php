@@ -2,4 +2,7 @@
 
 namespace Sikker\NotNoSQL;
 
-class NotAnArrayException extends Exception { }
+class NotAnArrayException extends Exception
+{
+ 
+}

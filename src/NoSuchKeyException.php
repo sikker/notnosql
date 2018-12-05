@@ -2,4 +2,7 @@
 
 namespace Sikker\NotNoSQL;
 
-class NoSuchKeyException extends Exception {}
+class NoSuchKeyException extends Exception
+{
+
+}
