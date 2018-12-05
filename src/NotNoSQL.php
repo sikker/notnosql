@@ -80,6 +80,8 @@ class NotNoSQL {
 		if($data instanceof Data) {
 			$data->set($key, $value);
 			$data = $data->export();
+		} else {
+			$data = $value;
 		}
 		$this->db->statement('put', $toplevel, $data);
 	}
